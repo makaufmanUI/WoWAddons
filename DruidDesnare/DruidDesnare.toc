@@ -1,0 +1,6 @@
+## Interface: 20504
+## Title: |cff00aeffDruidDesnare|r
+## Notes: |cffff00f3Druid snare remover via Python|r
+## Author: Matt
+
+DruidDesnare.lua
