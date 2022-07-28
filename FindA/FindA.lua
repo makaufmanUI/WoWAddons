@@ -1,8 +1,6 @@
----@diagnostic disable: duplicate-set-field
 SLASH_FINDA1 = "/finda"
 SLASH_FA1 = "/fa"
 BTN_TEXT_SET_TO = ""
--- LAST_TARGET_MARKED = ""
 GRADIENT_ = "Interface\\GLUES\\Models\\UI_MainMenu\\swordgradient2"
 Markers_ = {
 	[1] = "|TInterface\\TargetingFrame\\UI-RaidTargetingIcon_1:14:14|t",
@@ -94,9 +92,9 @@ end
 
 local function onEvent(self, event, addOnName)
 	if addOnName == "FindA" then
-		FindADB = FindADB or {}								-- Load or create the saved variables database
+		FindADB = FindADB or {}					-- Load or create the saved variables database
 		FindADB.sessions = (FindADB.sessions or 0) + 1		-- Increment game-sessions counter
-		if  FindADB.sessions == 1 then						-- Populate/Initialize the saved variables table if first login
+		if  FindADB.sessions == 1 then				-- Populate/Initialize the saved variables table if first login
 			FindADB.xDefault  = 0
 			FindADB.yDefault  = 0
 			FindADB.msgEnable = 1
@@ -150,27 +148,26 @@ LoginFrame:SetScript("OnEvent", onEvent)
 
 function FindA(thing)
 	local target = UnitName("target")						-- Get the name of the target
-	if target then											-- If there is a target
-		thing = Capitalize(thing)								-- Capitalize the target's name
+	if target then									-- If there is a target
+		thing = Capitalize(thing)							-- Capitalize the target's name
 		if string.find(target, thing) then						-- Check to see if user arg 'thing' is in target's name
 			local dead = UnitIsDead("target")						-- Check if target is dead
-			local tapped = UnitIsTapDenied("target") 				-- Check if target is tapped
-			local marked = GetRaidTargetIndex("target") 			-- Check if target is marked
-			if not dead and not tapped and not marked then			-- If none of the above
+			local tapped = UnitIsTapDenied("target") 					-- Check if target is tapped
+			local marked = GetRaidTargetIndex("target") 					-- Check if target is marked
+			if not dead and not tapped and not marked then					-- If none of the above
 				SetRaidTarget("target", Marker_)						-- Mark target with selected marker
-				-- LAST_TARGET_MARKED = thing							-- Set the last target marked to the thing
 			end
 		end
 	end
 end
 
 local KillFrame = CreateFrame("Frame")							-- Create a frame to watch for marked target's death
-KillFrame:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED")			-- Register the frame for combat log events
-KillFrame:SetScript("OnEvent", function(self, event, ...)		-- When the frame receives an event
-	if event == "COMBAT_LOG_EVENT_UNFILTERED" then					-- Ensure the event is a combat log event
-		local _, eventType = CombatLogGetCurrentEventInfo()			-- Get the event type
-		if eventType == "PARTY_KILL" then							-- If the event is a kill from the player or a party member
-			SetRaidTarget("target", 0)									-- Remove the marker from the target
+KillFrame:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED")					-- Register the frame for combat log events
+KillFrame:SetScript("OnEvent", function(self, event, ...)				-- When the frame receives an event
+	if event == "COMBAT_LOG_EVENT_UNFILTERED" then						-- Ensure the event is a combat log event
+		local _, eventType = CombatLogGetCurrentEventInfo()				-- Get the event type
+		if eventType == "PARTY_KILL" then						-- If the event is a kill from the player or a party member
+			SetRaidTarget("target", 0)							-- Remove the marker from the target
 		end
 	end
 end)
@@ -239,17 +236,17 @@ end
 
 Finda = {};
 Finda.panel = CreateFrame("Frame", "FindAPanel");					-- Create a frame to hold the panel
-Finda.panel.name = "FindA";											-- Set the Category name for the panel
+Finda.panel.name = "FindA";								-- Set the Category name for the panel
 
-local MainTitle = Subheading(Finda.panel, "FindA", 0, 0)			-- Create a title for the panel
+local MainTitle = Subheading(Finda.panel, "FindA", 0, 0)				-- Create a title for the panel
 MainTitle:SetFont(MainTitle:GetFont(), 64)
 MainTitle:ClearAllPoints(); MainTitle:SetPoint("TOP", 0, -32)
 
-local OptionsTitle = Subheading(Finda.panel, "Options", 0, 0)		-- Create a subtitle for the panel
+local OptionsTitle = Subheading(Finda.panel, "Options", 0, 0)				-- Create a subtitle for the panel
 OptionsTitle:SetFont(OptionsTitle:GetFont(), 32)
 OptionsTitle:ClearAllPoints(); OptionsTitle:SetPoint("TOP", 0, -112)
 
-local PanelTexture = Finda.panel:CreateTexture(nil, "BACKGROUND")	-- Create a background texture for the panel
+local PanelTexture = Finda.panel:CreateTexture(nil, "BACKGROUND")			-- Create a background texture for the panel
 PanelTexture:SetAllPoints(); PanelTexture:SetTexture(GRADIENT_)
 PanelTexture:SetAlpha(0.2); PanelTexture:SetTexCoord(0, 1, 1, 0)
 
