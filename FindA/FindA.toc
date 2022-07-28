@@ -1,0 +1,7 @@
+## Interface: 20504
+## Title: |cff00aeffFindA|r
+## Notes: |cffff00f3Superior version of the standard /target, SetRaidTarget() macro|r
+## Author: Matt
+## SavedVariables: FindADB
+
+FindA.lua
