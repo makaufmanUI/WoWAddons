@@ -1,0 +1,8 @@
+## Interface: 20504
+## Title: |cff00aeffBasicCalculator|r
+## Notes: |cffff00f3/calc  --  Simple calculator frame with basic operations|r
+## Author: Matt Kaufman
+## Version: 1.4
+
+main.lua
+frames.xml

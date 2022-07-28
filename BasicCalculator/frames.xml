@@ -1,0 +1,692 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+	http://wowprogramming.com/FrameXML/UI.xsd">
+
+	<Frame name="calculatorParentFrame" enableMouse="true" movable="true" parent="UIParent" parentKey="ParentFrame_">
+		<Size x="192" y="315"/>
+		<Anchors>
+			<Anchor point="CENTER" relativePoint="CENTER" relativeTo="UIParent"/>
+		</Anchors>
+		<Layers>
+			<Layer level="BACKGROUND">
+				<Texture name="$parentSolid">
+					<Size x="192" y="315"/>
+					<Anchors>
+						<Anchor point="CENTER" relativePoint="CENTER"/>
+					</Anchors>
+					<Color r="0.5" g="0.5" b="0.5" a="0.8"/>
+				</Texture>
+			</Layer>
+		</Layers>
+		<Scripts>
+			<OnLoad>
+				self:RegisterForDrag("LeftButton");
+				self:Hide();
+			</OnLoad>
+			<OnDragStart>
+				self:StartMoving();
+			</OnDragStart>
+			<OnDragStop>
+				self:StopMovingOrSizing();
+			</OnDragStop>
+		</Scripts>
+	</Frame>
+
+	<Frame name="calculatorButtonsFrame" parent="calculatorParentFrame" parentKey="ButtonFrame_">
+		<Size x="182" y="230"/>
+		<Anchors>
+			<Anchor point="CENTER" relativePoint="CENTER" relativeTo="calculatorParentFrame"/>
+		</Anchors>
+		<Layers>
+			<Layer level="LOW">
+				<Texture name="$parentButtonBG">
+					<Size x="182" y="230"/>
+					<Anchors>
+						<Anchor point="CENTER" relativePoint="CENTER">
+							<Offset x="0" y="-35"/>
+						</Anchor>
+					</Anchors>
+					<Color r="0.0" g="0.0" b="0.0" a="0.9"/>
+				</Texture>
+			</Layer>
+		</Layers>
+	</Frame>
+
+	<Frame name="calculatorDisplayFrame" parent="calculatorParentFrame">
+		<Size x="182" y="61"/>
+		<Anchors>
+			<Anchor point="CENTER" relativePoint="CENTER" relativeTo="calculatorParentFrame"/>
+		</Anchors>
+		<Layers>
+			<Layer level="LOW">
+				<Texture name="$parentDisplayBG">
+					<Size x="182" y="61"/>
+					<Anchors>
+						<Anchor point="CENTER" relativePoint="CENTER">
+							<Offset x="0" y="117"/>
+						</Anchor>
+					</Anchors>
+					<Color r="0.0" g="0.0" b="0.0" a="0.85"/>
+				</Texture>
+			</Layer>
+		</Layers>
+	</Frame>
+
+	<EditBox name="calculatorDisplayBox" parent="calculatorDisplayFrame">
+		<Size x="172" y="51"/>
+		<Anchors>
+			<Anchor point="TOP" relativePoint="TOP" relativeTo="calculatorDisplayFrame">
+				<Offset x="0" y="107"/>
+			</Anchor>
+		</Anchors>
+		<Layers>
+			<Layer level="LOW">
+				<Texture name="$parentDisplayBoxBG">
+					<Size x="172" y="51"/>
+					<Anchors>
+						<Anchor point="CENTER" relativePoint="CENTER">
+							<Offset x="0" y="0"/>
+						</Anchor>
+					</Anchors>
+					<Color r="1.0" g="1.0" b="1.0" a="0"/>
+				</Texture>
+			</Layer>
+		</Layers>
+		<FontString inherits="GameFontNormalHuge"/>
+		<Scripts>
+			<OnLoad>self:SetAutoFocus(false)</OnLoad>
+			<OnEditFocusGained>self:ClearFocus()</OnEditFocusGained>
+		</Scripts>
+	</EditBox>
+
+	<Button name="ZeroButton" parent="calculatorButtonsFrame" inherits="UIPanelButtonTemplate" text="0">
+		<Size x="89" y="40"/>
+		<Anchors>
+			<Anchor point="BOTTOMLEFT" relativePoint="BOTTOMLEFT" relativeTo="calculatorButtonsFrame">
+				<Offset x="2" y="-32"/>
+			</Anchor>
+		</Anchors>
+		<Scripts>
+			<OnClick>
+				calculatorDisplayBox:Insert("0")
+				handleCalcInput(0)
+			</OnClick>
+		</Scripts>
+		<NormalFont style="GameFontNormalHuge"/><HighlightFont style="GameFontNormalHuge"/>
+	</Button>
+
+	<Button name="PeriodButton" parent="calculatorButtonsFrame" inherits="UIPanelButtonTemplate" text=".">
+		<Size x="45" y="40"/>
+		<Anchors>
+			<Anchor point="BOTTOMLEFT" relativePoint="BOTTOMLEFT" relativeTo="calculatorButtonsFrame">
+				<Offset x="90.5" y="-32"/>
+			</Anchor>
+		</Anchors>
+		<Scripts>
+			<OnClick>
+				calculatorDisplayBox:Insert(".")
+				handleCalcInput('.')
+			</OnClick>
+		</Scripts>
+		<NormalFont style="GameFontNormalHuge"/><HighlightFont style="GameFontNormalHuge"/>
+	</Button>
+
+	<Button name="EqualsButton" parent="calculatorButtonsFrame" inherits="UIPanelButtonTemplate" text="=">
+		<Size x="45" y="40"/>
+		<Anchors>
+			<Anchor point="BOTTOMLEFT" relativePoint="BOTTOMLEFT" relativeTo="calculatorButtonsFrame">
+				<Offset x="134" y="-32"/>
+			</Anchor>
+		</Anchors>
+		<Scripts>
+			<OnClick>
+				calculatorDisplayBox:Insert(" = ")
+				handleCalcInput(' = ')
+			</OnClick>
+		</Scripts>
+		<NormalFont style="GameFontNormalHuge"/><HighlightFont style="GameFontNormalHuge"/>
+	</Button>
+
+	<Button name="OneButton" parent="calculatorButtonsFrame" inherits="UIPanelButtonTemplate" text="1">
+		<Size x="45" y="40"/>
+		<Anchors>
+			<Anchor point="BOTTOMLEFT" relativePoint="BOTTOMLEFT" relativeTo="calculatorButtonsFrame">
+				<Offset x="2" y="6"/>
+			</Anchor>
+		</Anchors>
+		<Scripts>
+			<OnClick>
+				calculatorDisplayBox:Insert("1")
+				handleCalcInput(1)
+			</OnClick>
+		</Scripts>
+		<NormalFont style="GameFontNormalHuge"/><HighlightFont style="GameFontNormalHuge"/>
+	</Button>
+
+	<Button name="TwoButton" parent="calculatorButtonsFrame" inherits="UIPanelButtonTemplate" text="2">
+		<Size x="45" y="40"/>
+		<Anchors>
+			<Anchor point="BOTTOMLEFT" relativePoint="BOTTOMLEFT" relativeTo="calculatorButtonsFrame">
+				<Offset x="46" y="6"/>
+			</Anchor>
+		</Anchors>
+		<Scripts>
+			<OnClick>
+				calculatorDisplayBox:Insert("2")
+				handleCalcInput(2)
+			</OnClick>
+		</Scripts>
+		<NormalFont style="GameFontNormalHuge"/><HighlightFont style="GameFontNormalHuge"/>
+	</Button>
+
+	<Button name="ThreeButton" parent="calculatorButtonsFrame" inherits="UIPanelButtonTemplate" text="3">
+		<Size x="45" y="40"/>
+		<Anchors>
+			<Anchor point="BOTTOMLEFT" relativePoint="BOTTOMLEFT" relativeTo="calculatorButtonsFrame">
+				<Offset x="90.5" y="6"/>
+			</Anchor>
+		</Anchors>
+		<Scripts>
+			<OnClick>
+				calculatorDisplayBox:Insert("3")
+				handleCalcInput(3)
+			</OnClick>
+		</Scripts>
+		<NormalFont style="GameFontNormalHuge"/><HighlightFont style="GameFontNormalHuge"/>
+	</Button>
+
+	<Button name="PlusButton" parent="calculatorButtonsFrame" inherits="UIPanelButtonTemplate" text="+">
+		<Size x="45" y="40"/>
+		<Anchors>
+			<Anchor point="BOTTOMLEFT" relativePoint="BOTTOMLEFT" relativeTo="calculatorButtonsFrame">
+				<Offset x="134" y="6"/>
+			</Anchor>
+		</Anchors>
+		<Scripts>
+			<OnClick>
+				if sqrt_ or sin_ or cos_ or tan_ or ln_ or asin_ or acos_ or atan_ then
+					calculatorDisplayBox:Insert(") + ")
+					<!-- sqrt_ = false -->
+				else
+					calculatorDisplayBox:Insert(" + ")
+				end
+				handleCalcInput(' + ')
+			</OnClick>
+		</Scripts>
+		<NormalFont style="GameFontNormalHuge"/><HighlightFont style="GameFontNormalHuge"/>
+	</Button>
+
+	<Button name="FourButton" parent="calculatorButtonsFrame" inherits="UIPanelButtonTemplate" text="4">
+		<Size x="45" y="40"/>
+		<Anchors>
+			<Anchor point="BOTTOMLEFT" relativePoint="BOTTOMLEFT" relativeTo="calculatorButtonsFrame">
+				<Offset x="2" y="44"/>
+			</Anchor>
+		</Anchors>
+		<Scripts>
+			<OnClick>
+				calculatorDisplayBox:Insert("4")
+				handleCalcInput(4)
+			</OnClick>
+		</Scripts>
+		<NormalFont style="GameFontNormalHuge"/><HighlightFont style="GameFontNormalHuge"/>
+	</Button>
+
+	<Button name="FiveButton" parent="calculatorButtonsFrame" inherits="UIPanelButtonTemplate" text="5">
+		<Size x="45" y="40"/>
+		<Anchors>
+			<Anchor point="BOTTOMLEFT" relativePoint="BOTTOMLEFT" relativeTo="calculatorButtonsFrame">
+				<Offset x="46" y="44"/>
+			</Anchor>
+		</Anchors>
+		<Scripts>
+			<OnClick>
+				calculatorDisplayBox:Insert("5")
+				handleCalcInput(5)
+			</OnClick>
+		</Scripts>
+		<NormalFont style="GameFontNormalHuge"/><HighlightFont style="GameFontNormalHuge"/>
+	</Button>
+
+	<Button name="SixButton" parent="calculatorButtonsFrame" inherits="UIPanelButtonTemplate" text="6">
+		<Size x="45" y="40"/>
+		<Anchors>
+			<Anchor point="BOTTOMLEFT" relativePoint="BOTTOMLEFT" relativeTo="calculatorButtonsFrame">
+				<Offset x="90.5" y="44"/>
+			</Anchor>
+		</Anchors>
+		<Scripts>
+			<OnClick>
+				calculatorDisplayBox:Insert("6")
+				handleCalcInput(6)
+			</OnClick>
+		</Scripts>
+		<NormalFont style="GameFontNormalHuge"/><HighlightFont style="GameFontNormalHuge"/>
+	</Button>
+
+	<Button name="MinusButton" parent="calculatorButtonsFrame" inherits="UIPanelButtonTemplate" text="-">
+		<Size x="45" y="40"/>
+		<Anchors>
+			<Anchor point="BOTTOMLEFT" relativePoint="BOTTOMLEFT" relativeTo="calculatorButtonsFrame">
+				<Offset x="134" y="44"/>
+			</Anchor>
+		</Anchors>
+		<Scripts>
+			<OnClick>
+				if sqrt_ or sin_ or cos_ or tan_ or ln_ or asin_ or acos_ or atan_ then
+					calculatorDisplayBox:Insert(") - ")
+					<!-- sqrt_ = false -->
+				else
+					calculatorDisplayBox:Insert(" - ")
+				end
+				handleCalcInput(' - ')
+			</OnClick>
+		</Scripts>
+		<NormalFont style="GameFontNormalHuge"/><HighlightFont style="GameFontNormalHuge"/>
+	</Button>
+
+	<Button name="SevenButton" parent="calculatorButtonsFrame" inherits="UIPanelButtonTemplate" text="7">
+		<Size x="45" y="40"/>
+		<Anchors>
+			<Anchor point="BOTTOMLEFT" relativePoint="BOTTOMLEFT" relativeTo="calculatorButtonsFrame">
+				<Offset x="2" y="82"/>
+			</Anchor>
+		</Anchors>
+		<Scripts>
+			<OnClick>
+				calculatorDisplayBox:Insert("7")
+				handleCalcInput(7)
+			</OnClick>
+		</Scripts>
+		<NormalFont style="GameFontNormalHuge"/><HighlightFont style="GameFontNormalHuge"/>
+	</Button>
+
+	<Button name="EightButton" parent="calculatorButtonsFrame" inherits="UIPanelButtonTemplate" text="8">
+		<Size x="45" y="40"/>
+		<Anchors>
+			<Anchor point="BOTTOMLEFT" relativePoint="BOTTOMLEFT" relativeTo="calculatorButtonsFrame">
+				<Offset x="46" y="82"/>
+			</Anchor>
+		</Anchors>
+		<Scripts>
+			<OnClick>
+				calculatorDisplayBox:Insert("8")
+				handleCalcInput(8)
+			</OnClick>
+		</Scripts>
+		<NormalFont style="GameFontNormalHuge"/><HighlightFont style="GameFontNormalHuge"/>
+	</Button>
+
+	<Button name="NineButton" parent="calculatorButtonsFrame" inherits="UIPanelButtonTemplate" text="9">
+		<Size x="45" y="40"/>
+		<Anchors>
+			<Anchor point="BOTTOMLEFT" relativePoint="BOTTOMLEFT" relativeTo="calculatorButtonsFrame">
+				<Offset x="90.5" y="82"/>
+			</Anchor>
+		</Anchors>
+		<Scripts>
+			<OnClick>
+				calculatorDisplayBox:Insert("9")
+				handleCalcInput(9)
+			</OnClick>
+		</Scripts>
+		<NormalFont style="GameFontNormalHuge"/><HighlightFont style="GameFontNormalHuge"/>
+	</Button>
+
+	<Button name="MultiplyButton" parent="calculatorButtonsFrame" inherits="UIPanelButtonTemplate" text="x">
+		<Size x="45" y="40"/>
+		<Anchors>
+			<Anchor point="BOTTOMLEFT" relativePoint="BOTTOMLEFT" relativeTo="calculatorButtonsFrame">
+				<Offset x="134" y="82"/>
+			</Anchor>
+		</Anchors>
+		<Scripts>
+			<OnClick>
+				if sqrt_ or sin_ or cos_ or tan_ or ln_ or asin_ or acos_ or atan_ then
+					calculatorDisplayBox:Insert(") x ")
+					<!-- sqrt_ = false -->
+				else
+					calculatorDisplayBox:Insert(" x ")
+				end
+				handleCalcInput(' * ')
+			</OnClick>
+		</Scripts>
+		<NormalFont style="GameFontNormalHuge"/><HighlightFont style="GameFontNormalHuge"/>
+	</Button>
+
+	<Button name="ClearButton" parent="calculatorButtonsFrame" inherits="UIPanelButtonTemplate" text="c">
+		<Size x="45" y="40"/>
+		<Anchors>
+			<Anchor point="BOTTOMLEFT" relativePoint="BOTTOMLEFT" relativeTo="calculatorButtonsFrame">
+				<Offset x="2" y="120"/>
+			</Anchor>
+		</Anchors>
+		<Scripts>
+			<OnClick>
+				calculatorDisplayBox:SetText("")
+				handleCalcInput('C')
+			</OnClick>
+		</Scripts>
+		<NormalFont style="GameFontNormalHuge"/><HighlightFont style="GameFontNormalHuge"/>
+	</Button>
+
+	<Button name="SqrtButton" parent="calculatorButtonsFrame" inherits="UIPanelButtonTemplate" text="sqrt">
+		<Size x="45" y="40"/>
+		<Anchors>
+			<Anchor point="BOTTOMLEFT" relativePoint="BOTTOMLEFT" relativeTo="calculatorButtonsFrame">
+				<Offset x="46" y="120"/>
+			</Anchor>
+		</Anchors>
+		<Scripts>
+			<OnClick>
+				calculatorDisplayBox:Insert("sqrt(")
+				handleCalcInput('sqrt(')
+			</OnClick>
+		</Scripts>
+		<!-- <NormalFont style="GameFontNormalHuge"/><HighlightFont style="GameFontNormalHuge"/> -->
+	</Button>
+
+	<Button name="ExponentButton" parent="calculatorButtonsFrame" inherits="UIPanelButtonTemplate" text="^">
+		<Size x="45" y="40"/>
+		<Anchors>
+			<Anchor point="BOTTOMLEFT" relativePoint="BOTTOMLEFT" relativeTo="calculatorButtonsFrame">
+				<Offset x="90.5" y="120"/>
+			</Anchor>
+		</Anchors>
+		<Scripts>
+			<OnClick>
+				if sqrt_ or sin_ or cos_ or tan_ or ln_ or asin_ or acos_ or atan_ then
+					calculatorDisplayBox:Insert(")^")
+					<!-- sqrt_ = false -->
+				else
+					calculatorDisplayBox:Insert("^")
+				end
+				handleCalcInput('^')				
+			</OnClick>
+		</Scripts>
+		<NormalFont style="GameFontNormalHuge"/><HighlightFont style="GameFontNormalHuge"/>
+	</Button>
+
+	<Button name="DivideButton" parent="calculatorButtonsFrame" inherits="UIPanelButtonTemplate" text="/">
+		<Size x="45" y="40"/>
+		<Anchors>
+			<Anchor point="BOTTOMLEFT" relativePoint="BOTTOMLEFT" relativeTo="calculatorButtonsFrame">
+				<Offset x="134" y="120"/>
+			</Anchor>
+		</Anchors>
+		<Scripts>
+			<OnClick>
+				if sqrt_ or sin_ or cos_ or tan_ or ln_ or asin_ or acos_ or atan_ then
+					calculatorDisplayBox:Insert(") / ")
+					<!-- sqrt_ = false -->
+				else
+					calculatorDisplayBox:Insert(" / ")
+				end
+				handleCalcInput(' / ')
+			</OnClick>
+		</Scripts>
+		<NormalFont style="GameFontNormalHuge"/><HighlightFont style="GameFontNormalHuge"/>
+	</Button>
+
+	<Button name="CloseCalcButton" parent="calculatorParentFrame" inherits="UIPanelButtonTemplate" text="x">
+		<Size x="18" y="18"/>
+		<Anchors>
+			<Anchor point="TOPRIGHT" relativePoint="TOPRIGHT" relativeTo="calculatorParentFrame">
+				<Offset x="2" y="2"/>
+			</Anchor>
+		</Anchors>
+		<Scripts>
+			<OnClick>
+				closeCalc()
+			</OnClick>
+		</Scripts>
+	</Button>
+
+	<Button name="2ndButton" parent="calculatorParentFrame" inherits="UIPanelButtonTemplate" text="2nd">
+		<Size x="30" y="18"/>
+		<Anchors>
+			<Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="calculatorParentFrame">
+				<Offset x="-2" y="2"/>
+			</Anchor>
+		</Anchors>
+		<Scripts>
+			<OnClick>
+				if secondDown then
+					secondDown = false
+				else
+					secondDown = true
+				end
+				second_(secondDown)
+			</OnClick>
+		</Scripts>
+	</Button>
+
+	<Button name="SqrtXButton" parent="calculatorButtonsFrame" inherits="UIPanelButtonTemplate" text="sqrtX">
+		<Size x="45" y="40"/>
+		<Anchors>
+			<Anchor point="BOTTOMLEFT" relativePoint="BOTTOMLEFT" relativeTo="calculatorButtonsFrame">
+				<Offset x="46" y="120"/>
+			</Anchor>
+		</Anchors>
+		<Scripts>
+			<OnLoad>SqrtXButton:Hide()</OnLoad>
+			<OnClick>
+				temp_ = calculatorDisplayBox:GetText()
+				space_ = string.find(temp_, " ")
+				if space_ ~= nil then
+					print('error')
+					print(space_)
+					print(temp_)
+					calculatorDisplayBox:SetText('error')
+					inputString = ""
+				else
+					inputString = "sqrt(" .. temp_ .. ")"
+					doMaths(inputString)
+				end
+			</OnClick>
+		</Scripts>
+		<!-- <NormalFont style="GameFontNormalHuge"/><HighlightFont style="GameFontNormalHuge"/> -->
+	</Button>
+
+	<Button name="sinButton" parent="calculatorButtonsFrame" inherits="UIPanelButtonTemplate" text="sin">
+		<Size x="45" y="30"/>
+		<Anchors>
+			<Anchor point="BOTTOMLEFT" relativePoint="BOTTOMLEFT" relativeTo="calculatorButtonsFrame">
+				<Offset x="2" y="160"/>
+			</Anchor>
+		</Anchors>
+		<Scripts>
+			<OnClick>
+				calculatorDisplayBox:SetText("sin(")
+				handleCalcInput('sin(')
+			</OnClick>
+		</Scripts>
+		<!-- <NormalFont style="GameFontNormalHuge"/><HighlightFont style="GameFontNormalHuge"/> -->
+	</Button>
+
+	<Button name="cosButton" parent="calculatorButtonsFrame" inherits="UIPanelButtonTemplate" text="cos">
+		<Size x="45" y="30"/>
+		<Anchors>
+			<Anchor point="BOTTOMLEFT" relativePoint="BOTTOMLEFT" relativeTo="calculatorButtonsFrame">
+				<Offset x="46" y="160"/>
+			</Anchor>
+		</Anchors>
+		<Scripts>
+			<OnClick>
+				calculatorDisplayBox:Insert("cos(")
+				handleCalcInput('cos(')
+			</OnClick>
+		</Scripts>
+		<!-- <NormalFont style="GameFontNormalHuge"/><HighlightFont style="GameFontNormalHuge"/> -->
+	</Button>
+
+	<Button name="tanButton" parent="calculatorButtonsFrame" inherits="UIPanelButtonTemplate" text="tan">
+		<Size x="45" y="30"/>
+		<Anchors>
+			<Anchor point="BOTTOMLEFT" relativePoint="BOTTOMLEFT" relativeTo="calculatorButtonsFrame">
+				<Offset x="90.5" y="160"/>
+			</Anchor>
+		</Anchors>
+		<Scripts>
+			<OnClick>
+				calculatorDisplayBox:Insert("tan(")
+				handleCalcInput('tan(')				
+			</OnClick>
+		</Scripts>
+		<!-- <NormalFont style="GameFontNormalHuge"/><HighlightFont style="GameFontNormalHuge"/> -->
+	</Button>
+
+	<Button name="lnButton" parent="calculatorButtonsFrame" inherits="UIPanelButtonTemplate" text="ln">
+		<Size x="45" y="30"/>
+		<Anchors>
+			<Anchor point="BOTTOMLEFT" relativePoint="BOTTOMLEFT" relativeTo="calculatorButtonsFrame">
+				<Offset x="134" y="160"/>
+			</Anchor>
+		</Anchors>
+		<Scripts>
+			<OnClick>
+				calculatorDisplayBox:Insert("ln(")
+				handleCalcInput('log(')
+			</OnClick>
+		</Scripts>
+		<!-- <NormalFont style="GameFontNormalHuge"/><HighlightFont style="GameFontNormalHuge"/> -->
+	</Button>
+
+	<Button name="asinButton" parent="calculatorButtonsFrame" inherits="UIPanelButtonTemplate" text="asin">
+		<Size x="45" y="30"/>
+		<Anchors>
+			<Anchor point="BOTTOMLEFT" relativePoint="BOTTOMLEFT" relativeTo="calculatorButtonsFrame">
+				<Offset x="2" y="160"/>
+			</Anchor>
+		</Anchors>
+		<Scripts>
+			<OnLoad>asinButton:Hide()</OnLoad>
+			<OnClick>
+				<!-- temp_ = calculatorDisplayBox:GetText()
+				space_ = string.find(temp_, " ")
+				if space_ ~= nil then
+					print('error')
+					print(space_)
+					print(temp_)
+					calculatorDisplayBox:SetText('error')
+					inputString = ""
+				else
+					inputString = "asin(" .. temp_ .. ")"
+					doMaths(inputString)
+				end -->
+				calculatorDisplayBox:Insert("asin(")
+				handleCalcInput('asin(')
+			</OnClick>
+		</Scripts>
+		<!-- <NormalFont style="GameFontNormalHuge"/><HighlightFont style="GameFontNormalHuge"/> -->
+	</Button>
+
+	<Button name="acosButton" parent="calculatorButtonsFrame" inherits="UIPanelButtonTemplate" text="acos">
+		<Size x="45" y="30"/>
+		<Anchors>
+			<Anchor point="BOTTOMLEFT" relativePoint="BOTTOMLEFT" relativeTo="calculatorButtonsFrame">
+				<Offset x="46" y="160"/>
+			</Anchor>
+		</Anchors>
+		<Scripts>
+			<OnLoad>acosButton:Hide()</OnLoad>
+			<OnClick>
+				<!-- temp_ = calculatorDisplayBox:GetText()
+				space_ = string.find(temp_, " ")
+				if space_ ~= nil then
+					print('error')
+					print(space_)
+					print(temp_)
+					calculatorDisplayBox:SetText('error')
+					inputString = ""
+				else
+					inputString = "acos(" .. temp_ .. ")"
+					doMaths(inputString)
+				end -->
+				calculatorDisplayBox:Insert("acos(")
+				handleCalcInput('acos(')
+			</OnClick>
+		</Scripts>
+		<!-- <NormalFont style="GameFontNormalHuge"/><HighlightFont style="GameFontNormalHuge"/> -->
+	</Button>
+
+	<Button name="atanButton" parent="calculatorButtonsFrame" inherits="UIPanelButtonTemplate" text="atan">
+		<Size x="45" y="30"/>
+		<Anchors>
+			<Anchor point="BOTTOMLEFT" relativePoint="BOTTOMLEFT" relativeTo="calculatorButtonsFrame">
+				<Offset x="90.5" y="160"/>
+			</Anchor>
+		</Anchors>
+		<Scripts>
+			<OnLoad>atanButton:Hide()</OnLoad>
+			<OnClick>
+				<!-- temp_ = calculatorDisplayBox:GetText()
+				space_ = string.find(temp_, " ")
+				if space_ ~= nil then
+					print('error')
+					print(space_)
+					print(temp_)
+					calculatorDisplayBox:SetText('error')
+					inputString = ""
+				else
+					inputString = "atan(" .. temp_ .. ")"
+					doMaths(inputString)
+				end -->
+				calculatorDisplayBox:Insert("atan(")
+				handleCalcInput('atan(')
+			</OnClick>
+		</Scripts>
+		<!-- <NormalFont style="GameFontNormalHuge"/><HighlightFont style="GameFontNormalHuge"/> -->
+	</Button>
+
+	<Button name="eButton" parent="calculatorButtonsFrame" inherits="UIPanelButtonTemplate" text="e">
+		<Size x="45" y="30"/>
+		<Anchors>
+			<Anchor point="BOTTOMLEFT" relativePoint="BOTTOMLEFT" relativeTo="calculatorButtonsFrame">
+				<Offset x="134" y="160"/>
+			</Anchor>
+		</Anchors>
+		<Scripts>
+			<OnLoad>eButton:Hide()</OnLoad>
+			<OnClick>
+				calculatorDisplayBox:Insert("e")
+				handleCalcInput('2.71828182846')
+			</OnClick>
+		</Scripts>
+		<!-- <NormalFont style="GameFontNormalHuge"/><HighlightFont style="GameFontNormalHuge"/> -->
+	</Button>
+
+	<!-- <Frame name="GradientTest" parent="UIParent">
+		<Size x="200" y="200"/>
+		<Anchors>
+			<Anchor point="CENTER" relativePoint="CENTER" relativeTo="UIParent"/>
+		</Anchors>
+		<Layers>
+			<Layer level="BACKGROUND">
+				<Texture name="$parentHorizontal">
+					<Size x="200" y="100"/>
+					<Anchors>
+						<Anchor point="TOPLEFT" relativePoint="TOPLEFT"/>
+					</Anchors>
+					<Color r="1.0" g="0.0" b="0.0" a="1.0"/>
+					<Gradient orientation="HORIZONTAL">
+						<MinColor r="1.0" g="0.0" b="0.0" a="1.0"/>
+						<MaxColor r="0.0" g="0.0" b="0.0" a="1.0"/>
+					</Gradient>
+				</Texture>
+				<Texture name="$parentVertical">
+					<Size x="200" y="100"/>
+					<Anchors>
+						<Anchor point="BOTTOMLEFT" relativePoint="BOTTOMLEFT"/>
+					</Anchors>
+					<Color r="1.0" g="1.0" b="1.0" a="1.0"/>
+					<Gradient orientation="VERTICAL">
+						<MinColor r="0.0" g="0.0" b="0.0" a="1.0"/>
+						<MaxColor r="1.0" g="1.0" b="0.0" a="1.0"/>
+					</Gradient>
+				</Texture>
+			</Layer>
+		</Layers>
+	</Frame> -->
+</Ui>
