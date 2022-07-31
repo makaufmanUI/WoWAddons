@@ -147,27 +147,27 @@ LoginFrame:SetScript("OnEvent", onEvent)
 
 
 function FindA(thing)
-	local target = UnitName("target")						-- Get the name of the target
-	if target then									-- If there is a target
-		thing = Capitalize(thing)							-- Capitalize the target's name
-		if string.find(target, thing) then						-- Check to see if user arg 'thing' is in target's name
-			local dead = UnitIsDead("target")						-- Check if target is dead
-			local tapped = UnitIsTapDenied("target") 					-- Check if target is tapped
-			local marked = GetRaidTargetIndex("target") 					-- Check if target is marked
-			if not dead and not tapped and not marked then					-- If none of the above
-				SetRaidTarget("target", Marker_)						-- Mark target with selected marker
+	local target = UnitName("target")				-- Get the name of the target
+	if target then							-- If there is a target
+		thing = Capitalize(thing)					-- Capitalize the target's name
+		if string.find(target, thing) then				-- Check to see if user arg 'thing' is in target's name
+			local dead = UnitIsDead("target")				-- Check if target is dead
+			local tapped = UnitIsTapDenied("target") 			-- Check if target is tapped
+			local marked = GetRaidTargetIndex("target") 			-- Check if target is marked
+			if not dead and not tapped and not marked then			-- If none of the above
+				SetRaidTarget("target", Marker_)				-- Mark target with selected marker
 			end
 		end
 	end
 end
 
-local KillFrame = CreateFrame("Frame")							-- Create a frame to watch for marked target's death
-KillFrame:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED")					-- Register the frame for combat log events
-KillFrame:SetScript("OnEvent", function(self, event, ...)				-- When the frame receives an event
-	if event == "COMBAT_LOG_EVENT_UNFILTERED" then						-- Ensure the event is a combat log event
-		local _, eventType = CombatLogGetCurrentEventInfo()				-- Get the event type
-		if eventType == "PARTY_KILL" then						-- If the event is a kill from the player or a party member
-			SetRaidTarget("target", 0)							-- Remove the marker from the target
+local KillFrame = CreateFrame("Frame")					-- Create a frame to watch for marked target's death
+KillFrame:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED")			-- Register the frame for combat log events
+KillFrame:SetScript("OnEvent", function(self, event, ...)		-- When the frame receives an event
+	if event == "COMBAT_LOG_EVENT_UNFILTERED" then				-- Ensure the event is a combat log event
+		local _, eventType = CombatLogGetCurrentEventInfo()		-- Get the event type
+		if eventType == "PARTY_KILL" then				-- If the event is a kill from the player or a party member
+			SetRaidTarget("target", 0)					-- Remove the marker from the target
 		end
 	end
 end)
