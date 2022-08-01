@@ -1,7 +1,10 @@
-SLASH_FINDA1 = "/finda"
 SLASH_FA1 = "/fa"
+SLASH_FINDA1 = "/finda"
+
 BTN_TEXT_SET_TO = ""
+
 GRADIENT_ = "Interface\\GLUES\\Models\\UI_MainMenu\\swordgradient2"
+
 Markers_ = {
 	[1] = "|TInterface\\TargetingFrame\\UI-RaidTargetingIcon_1:14:14|t",
 	[2] = "|TInterface\\TargetingFrame\\UI-RaidTargetingIcon_2:14:14|t",
@@ -22,6 +25,7 @@ MarkerNames_ = {
 	[7] = "Cross",
 	[8] = "Skull",
 }
+
 
 -- Creates subheadings for interface options
 local function Subheading(frame, title, x, y)
