@@ -21,18 +21,14 @@ def RecastShapeshift():
 
 def Loop():
     # 130ms to execute
-    match = False
     chat = screen.read_chat()
     for line in chat:
         if any_match(TRIGGERS, line):
-            match = True
+            Clear()
             RecastShapeshift()
             return
 
 
 if MAIN:
-    global line
-    global match 
     while True:
         Loop()
-        if match: Clear()
